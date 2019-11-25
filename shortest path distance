@@ -1,0 +1,30 @@
+n,m,k,A,B = map(int,input().split())
+gifts =list(map(int,input().split()))
+
+adj_list = [[] for i in range(n+1)]
+for i in range(m):
+  a,b = map(int,input().split())
+  if b not in adj_list[a]:
+    adj_list[a].append(b)
+  if a not in adj_list[b]:
+    adj_list[b].append(a)
+
+def solve(s):
+  queue = []
+  queue.append(s)
+  visited =[0 for i in range(n+1)]
+  visited[s]=1
+  dist = [-1 for i in range(n+1)]
+  dist[s]=0
+  while len(queue)>0:
+    node = queue.pop(0) 
+    print(node)
+    for after in adj_list[node]:
+      
+      if visited[after] == 0:
+        queue.append(after)
+        
+        visited[after]=1
+        dist[after] = dist[node]+1
+  return(dist)
+print(solve(1))
