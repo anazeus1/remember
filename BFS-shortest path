@@ -1,0 +1,50 @@
+n = 8
+e = 8
+relations = [[1,2],[1,3],[2,3],[2,4],[4,5],[3,5],[5,6],[7,8]]
+adj_list = [[] for i in range(n+1)]
+for i in range(e):
+  a,b = relations[i]
+  if b not in adj_list[a]:
+    adj_list[a].append(b)
+  if a not in adj_list[b]:
+    adj_list[b].append(a)
+
+def solve(s):
+  queue = []
+
+  count = 0
+
+
+  queue.append(s)
+  visited =[0 for i in range(n+1)]
+  visited[s]=1
+  prev = [ 0 for i in range(n+1)]
+  while len(queue)>0:
+    node = queue.pop(0) 
+   
+    for after in adj_list[node]:
+      
+      if visited[after] == 0:
+        queue.append(after)
+        
+        visited[after]=1
+        prev[after] = node
+  return prev
+def reconstruct(s,e,prev):
+  at =e
+  path =[e]
+  while prev[at]!=0:
+      path.append(prev[at])
+      at=prev[at]
+      print(at)
+  path.reverse()
+  if path[0] == s:
+    return path
+  else:
+    return "no way"
+
+def bfs(s,e): 
+  prev = solve(s)
+  return reconstruct(s,e,prev)
+
+print(bfs(1,7))
